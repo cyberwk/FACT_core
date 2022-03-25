@@ -1,14 +1,13 @@
 # pylint: disable=protected-access,wrong-import-order,no-self-use,no-member,attribute-defined-outside-init
-
 from flask import Flask
 from flask_restx import Api
 
-from test.common_helper import create_test_file_object, create_test_firmware, get_config_for_testing
+from config import configparser_cfg
+from test.common_helper import create_test_file_object, create_test_firmware
 
 from ..code.qemu_exec import AnalysisPlugin
 from ..routes import routes
 
-from config import configparser_cfg
 
 class MockAnalysisEntry:
     def __init__(self, analysis_result=None):
