@@ -1,4 +1,6 @@
+#!/usr/bin/env python3
 import logging
+import os
 from configparser import ConfigParser
 from shlex import split
 from subprocess import CalledProcessError, check_output
@@ -7,9 +9,17 @@ from typing import List, Optional
 from helperFunctions.config import load_config
 from storage.db_setup import DbSetup
 
+host = None
+port = None
+user = os.getenv('PGUSER', default='postgres')
+
 
 def execute_psql_command(psql_command: str) -> bytes:
-    shell_cmd = f'sudo runuser -u postgres -- psql -c "{psql_command}"'
+    shell_cmd = f'psql \
+        --host={host} \
+        --username={user} \
+        -c "{psql_command}" \
+        '
     try:
         return check_output(split(shell_cmd))
     except CalledProcessError as error:
@@ -35,6 +45,11 @@ def main(command_line_options=None, config: Optional[ConfigParser] = None, skip_
     if config is None:
         logging.info('No custom configuration path provided for PostgreSQL setup. Using main.cfg ...')
         config = load_config('main.cfg')
+
+    global host, port
+    host = config['data-storage']['postgres-server']
+    port = config['data-storage']['postgres-port']
+
     fact_db = config['data-storage']['postgres-database']
     test_db = config['data-storage']['postgres-test-database']
 
