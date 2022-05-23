@@ -22,12 +22,12 @@ from web_interface.security.authentication import add_config_from_configparser_t
 
 
 class WebFrontEnd:
-    def __init__(self, config=None, db: Optional[FrontendDatabase] = None, intercom=None):
+    def __init__(self, config=None):
         self.config = config
         self.program_version = __VERSION__
 
-        self.intercom = InterComFrontEndBinding if intercom is None else intercom
-        self.db = FrontendDatabase(config) if db is None else db
+        self.intercom = InterComFrontEndBinding
+        self.db = FrontendDatabase(config)
 
         self._setup_app()
         logging.info('Web front end online')
