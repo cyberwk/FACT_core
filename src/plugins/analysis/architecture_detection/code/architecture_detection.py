@@ -16,22 +16,17 @@ except ImportError:
     import metadata
     sys.path.pop()
 
-try:
-    from ..internal.metadata_detector import MetaDataDetector
-except ImportError:
-    import sys
-    sys.path.append(str(Path(__file__).parent.parent / 'internal'))
-    from metadata_detector import MetaDataDetector
-
 
 class AnalysisPlugin(AnalysisBasePlugin):
     '''
     Generically detected target architecture for firmware images.
     '''
+    FILE = __file__
     NAME = 'cpu_architecture'
-    DEPENDENCIES = ['file_type', 'kernel_config', 'device_tree']
     DESCRIPTION = 'identify CPU architecture'
     VERSION = '0.4.0'
+
+    DEPENDENCIES = ['file_type', 'kernel_config', 'device_tree']
     MIME_BLACKLIST = [
         'application/msword',
         'application/pdf',
@@ -44,10 +39,10 @@ class AnalysisPlugin(AnalysisBasePlugin):
         'video',
     ]
 
-    def __init__(self, plugin_administrator, config=None, recursive=True):
+    def __init__(self, plugin_administrator, config=None):
         self.config = config
         self._fs_organizer = FSOrganizer(config)
-        super().__init__(plugin_administrator, config=config, recursive=recursive, plugin_path=__file__)
+        super().__init__(plugin_administrator, config=config)
 
     def process_object(self, file_object):
         arch_dict = construct_result(file_object, self._fs_organizer)
