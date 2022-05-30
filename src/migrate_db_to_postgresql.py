@@ -235,10 +235,10 @@ def _fix_illegal_list(list_: list, key=None, label=''):
 def _migrate_plugin(plugin_name, processed_analysis):
     if plugin_name == 'cpu_architecture':
         architectures = {}
-        for key, value in processed_analysis:
+        for key in processed_analysis:
             if key not in ['analysis_date', 'plugin_version', 'skipped', 'summary', 'system_version', 'tags']:
-                architectures[key] = value
-                processed_analysis.pop(key)
+                architectures[key] = processed_analysis.pop(key)
+                
 
         processed_analysis['architectures'] = architectures
 
