@@ -238,7 +238,6 @@ def _migrate_plugin(plugin_name, processed_analysis):
         for key in processed_analysis:
             if key not in ['analysis_date', 'plugin_version', 'skipped', 'summary', 'system_version', 'tags']:
                 architectures[key] = processed_analysis.pop(key)
-                
 
         processed_analysis['architectures'] = architectures
 
