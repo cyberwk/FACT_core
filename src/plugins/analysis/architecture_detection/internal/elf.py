@@ -3,7 +3,6 @@ from elftools.elf.constants import E_FLAGS
 from elftools.elf.descriptions import describe_attr_tag_arm
 from elftools.elf.elffile import ELFFile
 
-
 FLAGS_TO_STR = {
     E_FLAGS.EF_MIPS_ARCH_1: 'MIPS I',
     E_FLAGS.EF_MIPS_ARCH_2: 'MIPS II',
@@ -41,7 +40,6 @@ def _get_arm_isa(elffile):
     result = ''
 
     # Some how the section does not appear in arm64 binarys
-    # Documentation: https://developer.arm.com/documentation/ihi0044/h/
     sec = elffile.get_section_by_name('.ARM.attributes')
     for sub_sec in sec.iter_subsections():
         for sub_sub_sec in sub_sec.iter_subsubsections():
