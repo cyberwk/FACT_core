@@ -27,7 +27,7 @@ def _get_compatible_entry(dts: str) -> Union[str, None]:
     # [1] https://github.com/docker/docker-py/issues/1507
     # [2] https://github.com/docker/docker-py/issues/983
     dtc_process = subprocess.run(
-        shlex.split('docker run -i --rm dtc -I dts -O yaml'),
+        shlex.split('docker run -i --rm fact/dtc -I dts -O yaml'),
         input=dts,
         stdout=PIPE,
         stderr=DEVNULL,
