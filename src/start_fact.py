@@ -26,11 +26,6 @@ from shlex import split
 from subprocess import Popen, TimeoutExpired
 from time import sleep
 
-try:
-    import fact_base  # pylint: disable=unused-import  # noqa: F401  # just check if FACT is installed
-except ImportError:
-    sys.exit(1)
-
 from helperFunctions.config import get_src_dir
 from helperFunctions.program_setup import program_setup
 
@@ -52,7 +47,7 @@ def _evaluate_optional_args(args):
 def _start_component(component, args):
     script_path = Path(get_src_dir()) / '../start_fact_{}'.format(component)
     if not script_path.exists():
-        logging.debug('{} not installed'.format(component))
+        logging.info('{} not installed'.format(component))
         return None
     logging.info('starting {}'.format(component))
     optional_args = _evaluate_optional_args(args)
@@ -66,7 +61,7 @@ def _start_component(component, args):
 def _terminate_process(process: Popen):
     if process is not None:
         try:
-            os.kill(process.pid, signal.SIGUSR1)
+            os.kill(process.pid, signal.SIGTERM)
             process.wait(timeout=60)
         except TimeoutExpired:
             logging.error('component did not stop in time -> kill')
