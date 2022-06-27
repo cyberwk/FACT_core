@@ -38,6 +38,7 @@ class AnalysisSchedulerTest(TestCase):
             config=config, pre_analysis=lambda *_: None, post_analysis=self.dummy_callback,
             db_interface=self.mocked_interface, unpacking_locks=UnpackingLockManager()
         )
+        self.sched.start()
 
     def tearDown(self):
         self.sched.shutdown()
